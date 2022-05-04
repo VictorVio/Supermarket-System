@@ -12,35 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service // Declara que é um Service.
-public class ProductService {
+public class ProductService extends AbstractService<Product, ProductRepository> {
 
     @Autowired // Preenche o valor da variavel automaticamente.
     private ProductRepository repository;
-
-    public void registerProduct(Product registerProduct) {
-        repository.save(registerProduct);
-    }
-
-    public void editProduct(Product editProduct) throws ChangeSetPersister.NotFoundException {
-        Optional<Product> findProduct = repository.findById(editProduct.getId());
-        if(findProduct.isPresent()) {
-            repository.save(editProduct);
-        }else {
-            throw new ChangeSetPersister.NotFoundException();
-        }
-    }
-
-    public void deleteProductById(Long id) {
-        repository.deleteById(id);
-    }
-
-    public Product searchProductById(Long id) throws ChangeSetPersister.NotFoundException {
-        Optional<Product> findProduct = repository.findById(id);
-        if(findProduct.isPresent()) {
-            return findProduct.get();
-        }
-        throw new ChangeSetPersister.NotFoundException();
-    }
 
     public List<ProductVO> searchProductByName(String name) throws ChangeSetPersister.NotFoundException {
         List<ProductVO> findProduct = repository.findByName(name);
